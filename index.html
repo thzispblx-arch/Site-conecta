@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10243a">
+  <meta name="description" content="Grupo Conect — horários e controle de resultado das viagens.">
+  <title>Grupo Conect | Horários e viagens</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" id="brandHome" type="button" aria-label="Voltar ao início">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-copy"><strong>Grupo Conect</strong><small>Mobilidade e controle</small></span>
+      </button>
+      <div class="topbar-right">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span class="topbar-status">Painel de viagens</span>
+      </div>
+    </header>
+
+    <main>
+      <!-- TELA INICIAL: menu principal do Grupo Conect -->
+      <section class="screen active" id="homeScreen" aria-labelledby="homeTitle">
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow">BEM-VINDO AO PAINEL</span>
+            <h1 id="homeTitle">Grupo <span>Conect.</span></h1>
+            <p>Consulte os horários e acompanhe o resultado de cada viagem em um só lugar.</p>
+          </div>
+          <div class="hero-symbol" aria-hidden="true"><div class="symbol-road"></div><div class="symbol-bus">▰</div></div>
+        </div>
+
+        <div class="section-heading">
+          <div><span class="eyebrow">MENU PRINCIPAL</span><h2>O que você deseja acessar?</h2></div>
+        </div>
+
+        <div class="menu-options">
+          <button class="menu-card" type="button" data-screen="scheduleScreen">
+            <span class="menu-icon schedule-icon" aria-hidden="true">▦</span>
+            <span class="menu-card-copy"><strong>Horários</strong><small>Veja e organize as fotos dos horários das linhas.</small></span>
+            <span class="menu-arrow" aria-hidden="true">→</span>
+          </button>
+          <button class="menu-card" type="button" data-screen="calculatorScreen">
+            <span class="menu-icon calculator-icon" aria-hidden="true">R$</span>
+            <span class="menu-card-copy"><strong>Calcular lucros de viagens</strong><small>Conte passageiros, informe o diesel e calcule o resultado.</small></span>
+            <span class="menu-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+
+        <div class="info-strip">
+          <span class="info-icon" aria-hidden="true">i</span>
+          <p>O resultado da viagem considera o valor arrecadado com passageiros pagantes menos o custo do diesel informado.</p>
+        </div>
+      </section>
+
+      <!-- TELA DE HORÁRIOS: as imagens escolhidas aparecem automaticamente nesta galeria. -->
+      <section class="screen" id="scheduleScreen" aria-labelledby="scheduleTitle" hidden>
+        <div class="page-heading">
+          <button class="back-button" type="button" data-screen="homeScreen">← <span>Menu</span></button>
+          <span class="eyebrow">CONSULTA</span>
+          <h1 id="scheduleTitle">Horários das linhas</h1>
+          <p>Adicione fotos dos horários para consultar tudo por aqui. As imagens ficam salvas neste navegador.</p>
+        </div>
+
+        <div class="upload-panel">
+          <div class="upload-symbol" aria-hidden="true">＋</div>
+          <div class="upload-copy"><strong>Adicionar fotos de horários</strong><span>Selecione uma ou várias imagens do seu celular ou computador.</span></div>
+          <label class="primary-button upload-button" for="scheduleUpload">Escolher fotos</label>
+          <input id="scheduleUpload" type="file" accept="image/*" multiple hidden>
+        </div>
+        <p class="hint-line"><span aria-hidden="true">↳</span> Dica: você pode tirar uma foto dos horários ou escolher imagens que já estão na galeria.</p>
+
+        <div class="section-heading gallery-heading"><div><span class="eyebrow">SUA GALERIA</span><h2>Fotos adicionadas</h2></div><span id="photoCount" class="count-pill">0 fotos</span></div>
+        <div class="photo-grid" id="photoGrid" aria-live="polite">
+          <div class="empty-state" id="emptyPhotos"><div class="empty-icon" aria-hidden="true">▧</div><strong>Nenhuma foto por enquanto</strong><span>As fotos que você adicionar aparecerão aqui.</span></div>
+        </div>
+      </section>
+
+      <!-- TELA DE CÁLCULO: campos, contadores e resumo são atualizados pelo JavaScript. -->
+      <section class="screen" id="calculatorScreen" aria-labelledby="calculatorTitle" hidden>
+        <div class="page-heading">
+          <button class="back-button" type="button" data-screen="homeScreen">← <span>Menu</span></button>
+          <span class="eyebrow">CONTROLE FINANCEIRO</span>
+          <h1 id="calculatorTitle">Resultado da viagem</h1>
+          <p>Informe o valor da passagem, conte os passageiros e registre quanto diesel foi consumido.</p>
+        </div>
+
+        <div class="calculator-layout">
+          <div class="calculator-main">
+            <section class="panel input-panel" aria-labelledby="valuesTitle">
+              <div class="panel-heading"><div><span class="step-tag">01</span><h2 id="valuesTitle">Valores da viagem</h2></div><span class="panel-note">Preencha os campos</span></div>
+              <div class="fields-grid">
+                <label class="field field-fare"><span>Valor da passagem (R$)</span><span class="input-wrap"><span class="input-prefix">R$</span><input id="fareValue" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Ex.: 5,50" value=""></span><small>Preço cobrado nesta linha.</small></label>
+                <label class="field"><span>Diesel gasto (litros)</span><span class="input-wrap"><input id="dieselLiters" type="number" inputmode="decimal" min="0" step="0.1" placeholder="Ex.: 18,5" value=""><span class="input-suffix">L</span></span><small>Quantidade consumida nesta viagem.</small></label>
+                <label class="field"><span>Preço do diesel por litro</span><span class="input-wrap"><span class="input-prefix">R$</span><input id="dieselPrice" type="number" inputmode="decimal" min="0" step="0.01" value="7.36" required></span><small>Valor inicial configurado: R$ 7,36/L.</small></label>
+              </div>
+            </section>
+
+            <section class="panel passenger-panel" aria-labelledby="passengersTitle">
+              <div class="panel-heading"><div><span class="step-tag">02</span><h2 id="passengersTitle">Contagem de passageiros</h2></div><span class="panel-note">Use + e −</span></div>
+              <div class="counter-row">
+                <div class="counter-description"><span class="counter-icon free-icon" aria-hidden="true">◇</span><div><strong>Gratuidade</strong><small>Passageiros que não pagam passagem</small></div></div>
+                <div class="counter-control"><button class="counter-btn" type="button" data-counter="free" data-change="-1" aria-label="Diminuir gratuidades">−</button><output id="freeCount" class="counter-number" aria-live="polite">0</output><button class="counter-btn plus" type="button" data-counter="free" data-change="1" aria-label="Adicionar gratuidade">+</button></div>
+              </div>
+              <div class="counter-divider"></div>
+              <div class="counter-row">
+                <div class="counter-description"><span class="counter-icon paid-icon" aria-hidden="true">●</span><div><strong>Passageiro pagante</strong><small>Pessoas que pagaram a passagem</small></div></div>
+                <div class="counter-control"><button class="counter-btn" type="button" data-counter="paid" data-change="-1" aria-label="Diminuir passageiros pagantes">−</button><output id="paidCount" class="counter-number" aria-live="polite">0</output><button class="counter-btn plus" type="button" data-counter="paid" data-change="1" aria-label="Adicionar passageiro pagante">+</button></div>
+              </div>
+              <div class="total-passengers"><div><span class="total-icon" aria-hidden="true">♙</span><span>Total de passageiros</span></div><strong id="totalCount">0</strong></div>
+            </section>
+
+            <div class="calculation-note"><span aria-hidden="true">ⓘ</span><p><strong>Como o cálculo funciona:</strong> arrecadação = passagem × pagantes. Custo do diesel = litros gastos × preço por litro. O resultado não inclui motorista, manutenção, pedágio ou outras despesas que não forem informadas.</p></div>
+          </div>
+
+          <aside class="results-column">
+            <section class="result-panel" aria-labelledby="liveResultTitle">
+              <span class="result-eyebrow">PRÉVIA DA VIAGEM</span>
+              <h2 id="liveResultTitle">Resultado estimado</h2>
+              <div class="result-net neutral" id="liveNet">R$ 0,00</div>
+              <span class="result-status" id="liveStatus">Preencha os dados para calcular</span>
+              <div class="result-line"><span>Arrecadação</span><strong id="revenueValue">R$ 0,00</strong></div>
+              <div class="result-line"><span>Custo do diesel</span><strong id="fuelCostValue">R$ 0,00</strong></div>
+              <div class="result-line"><span>Passagens vendidas</span><strong id="paidSummary">0</strong></div>
+              <div class="result-line"><span>Gratuidades</span><strong id="freeSummary">0</strong></div>
+              <button class="primary-button finish-button" type="button" id="finishTrip">Finalizar viagem <span aria-hidden="true">→</span></button>
+              <button class="secondary-button new-trip-button" type="button" id="newTrip">Nova viagem</button>
+              <p class="result-footnote">A prévia é atualizada automaticamente conforme você altera os valores.</p>
+            </section>
+          </aside>
+        </div>
+
+        <section class="panel trip-report" id="tripReport" hidden aria-labelledby="reportTitle" aria-live="polite">
+          <div class="report-header"><div><span class="eyebrow">VIAGEM FINALIZADA</span><h2 id="reportTitle">Resumo do resultado</h2></div><button class="icon-button" type="button" id="copyReport" title="Copiar resumo">⧉ <span>Copiar resumo</span></button></div>
+          <div id="reportContent"></div>
+        </section>
+
+        <section class="panel history-panel" aria-labelledby="historyTitle">
+          <div class="panel-heading"><div><span class="eyebrow">REGISTROS LOCAIS</span><h2 id="historyTitle">Viagens finalizadas</h2></div><button class="text-button" id="clearHistory" type="button">Limpar histórico</button></div>
+          <div id="tripHistory" class="trip-history"><p class="history-empty">Nenhuma viagem finalizada neste navegador.</p></div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer"><span class="footer-brand">Grupo Conect</span><span>Controle simples, viagem organizada.</span><span id="currentYear"></span></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
